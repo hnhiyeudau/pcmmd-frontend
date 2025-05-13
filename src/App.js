@@ -18,13 +18,14 @@ function App() {
       setResult(res.data);
     } catch (err) {
       alert("Lỗi khi gửi ảnh đến server.");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, fontFamily: 'Arial' }}>
       <h1>🔬 Phân loại tế bào huyết tương</h1>
       <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
       <button onClick={handleUpload} style={{ marginLeft: 10 }}>
@@ -33,8 +34,29 @@ function App() {
 
       {result && (
         <div style={{ marginTop: 20 }}>
-          <h3>Kết quả: {result.label}</h3>
-          <p>Độ tin cậy: {result.confidence}%</p>
+          <h3>✅ Kết quả dự đoán</h3>
+          <p>🩸 Tế bào plasma: {result.plasma_cells}</p>
+          <p>🧫 Không phải plasma: {result.non_plasma_cells}</p>
+
+          <h4>📦 Các đối tượng phát hiện:</h4>
+          <ul>
+            {result.boxes.map((box, index) => (
+              <li key={index}>
+                {box.label} – [{box.box.map((v) => v.toFixed(1)).join(', ')}]
+              </li>
+            ))}
+          </ul>
+
+          {result.image_base64 && (
+            <>
+              <h4>🖼️ Ảnh đã xử lý:</h4>
+              <img
+                src={`data:image/jpeg;base64,${result.image_base64}`}
+                alt="Prediction result"
+                style={{ maxWidth: '100%', border: '1px solid #ccc', marginTop: 10 }}
+              />
+            </>
+          )}
         </div>
       )}
     </div>
