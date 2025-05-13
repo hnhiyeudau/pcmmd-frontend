@@ -14,9 +14,18 @@ function App() {
     formData.append("file", file);
 
     try {
-      const res = await axios.post("https://pcmmd-api.onrender.com/predict", formData);
+      const res = await axios.post(
+        "https://pcmmd-backend.onrender.com/predict",  // ✅ đúng địa chỉ backend
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data" // ✅ khai báo rõ để server nhận đúng
+          }
+        }
+      );
       setResult(res.data);
     } catch (err) {
+      console.error("Lỗi:", err);
       alert("Lỗi khi gửi ảnh đến server.");
     } finally {
       setLoading(false);
