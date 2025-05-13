@@ -14,7 +14,7 @@ function App() {
     formData.append("file", file);
 
     try {
-      const res = await axios.post("https://pcmmd-api.onrender.com/predict", formData);
+      const res = await axios.post("https://pcmmd-backend.onrender.com/", formData);
       setResult(res.data);
     } catch (err) {
       alert("Lỗi khi gửi ảnh đến server.");
