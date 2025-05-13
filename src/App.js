@@ -7,25 +7,16 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const handleUpload = async () => {
-    if (!file) return alert("Vui lòng chọn ảnh tế bào!");
+    if (!file) return alert("Vui lòng chọn ảnh!");
 
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const res = await axios.post(
-        "https://pcmmd-backend.onrender.com/predict",  // ✅ đúng địa chỉ backend
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data" // ✅ khai báo rõ để server nhận đúng
-          }
-        }
-      );
+      const res = await axios.post("https://pcmmd-api.onrender.com/predict", formData);
       setResult(res.data);
     } catch (err) {
-      console.error("Lỗi:", err);
       alert("Lỗi khi gửi ảnh đến server.");
     } finally {
       setLoading(false);
@@ -33,7 +24,7 @@ function App() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: 'Arial' }}>
+    <div style={{ padding: 20 }}>
       <h1>🔬 Phân loại tế bào huyết tương</h1>
       <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
       <button onClick={handleUpload} style={{ marginLeft: 10 }}>
