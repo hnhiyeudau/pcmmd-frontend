@@ -1,19 +1,18 @@
 {
-  "name": "pcmmd-frontend",
   "version": 2,
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/node"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"  // hoặc "dist" tùy vào cấu hình build của bạn
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_API_BASE_URL": "https://pcmmd-backend.onrender.com"
-  }
+  ]
 }
