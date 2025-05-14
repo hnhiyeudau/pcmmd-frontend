@@ -14,9 +14,11 @@ function App() {
 
   // Fetch available metrics on component mount
   useEffect(() => {
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+    
     const fetchMetrics = async () => {
       try {
-        const response = await fetch('http://localhost:8000/metrics');
+        const response = await fetch(`${API_BASE_URL}/metrics`);
         const data = await response.json();
         setMetrics(data);
       } catch (err) {
@@ -65,11 +67,12 @@ function App() {
 
     setIsLoading(true);
     
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
     const formData = new FormData();
     formData.append('file', file);
     
     try {
-      const response = await fetch('http://localhost:8000/predict', {
+      const response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         body: formData,
       });
